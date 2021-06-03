@@ -21,7 +21,7 @@ func GetUserDB(phone string) (db.User, bool) {
 	return users, true
 }
 
-func GetUserAutho(phone string)(db.AuthoData, bool) {
+func GetUserAutho(phone string) (db.AuthoData, bool) {
 	var users db.AuthoData
 	dbb := db.DBConn()
 	defer dbb.Close()
@@ -67,9 +67,9 @@ func CreateOPT() string {
 	}
 	return string(b)
 }
-func CreateToken(w http.ResponseWriter, r *http.Request,phone string) string {
+func CreateToken(w http.ResponseWriter, r *http.Request, phone string) string {
 	//var creds db.User
-	var jwtKey = []byte("my_secret_key")
+	var jwtKey = []byte("c")
 	//var user db.User
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := db.Claims{
