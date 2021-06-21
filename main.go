@@ -9,6 +9,6 @@ import (
 
 func main() {
 	fmt.Println("")
-	http.HandleFunc("/login", functions.Signin)
-	log.Fatal(http.ListenAndServe(":8085", nil))
+	http.HandleFunc("/verify", functions.Signin)
+	log.Fatal(http.ListenAndServe(":8088", nil))
 }

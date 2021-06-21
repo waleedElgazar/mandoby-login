@@ -2,7 +2,7 @@ package db
 
 type User struct {
 	Name  string `json:"name"`
-	Opt   string `json:"opt"`
+	Otp   string `json:"otp"`
 	Token string `json:"token"`
 	Phone string `json:"phone"`
 }

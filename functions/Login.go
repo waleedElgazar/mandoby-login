@@ -13,50 +13,43 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("error")
 		w.Header().Set("Content-Type", "text/plain")
-		w.Write([]byte("there is error happened\n try again"))
+		w.Write([]byte(err.Error()))
 		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w)
 		return
 	}
 
 	phone := creds.Phone
 	users, found := GetUserAutho(phone)
-	if found {
-		if creds.Opt == users.Opt {
-			_, founded := GetUserDB(phone)
-			if founded {
-				w.Header().Set("Content-Type", "text/plain")
-				w.Write([]byte("accepted"))
-				w.WriteHeader(http.StatusAccepted)
-				return
-			} else {
-				user := db.User{
-					Name:  creds.Name,
-					Phone: users.Phone,
-					Opt:   users.Opt,
-					Token: CreateToken(w, r, phone),
-				}
-				InsertUserDB(user)
-			}
+	SetPhoneRedis(phone)
+	SetOtpRedis(users.Otp)
+	fmt.Println(GetOtpRedis(),GetPhoneRedis())
+	if found {	
+		if creds.Otp == users.Otp {
 			w.Header().Set("Content-Type", "text/plain")
-			w.Write([]byte("added"))
+			w.Write([]byte("accepted"))
+			w.WriteHeader(http.StatusAccepted)
+			json.NewEncoder(w)
 			return
 		} else {
 			w.Header().Set("Content-Type", "text/plain")
 			w.Write([]byte("invalid credinations"))
 			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w)
 			return
 		}
 	} else {
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write([]byte("the user ins't found"))
-		// must save it in authoData then check if otp then create token
-		opt := CreateOPT()
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w)
+		otp := CreateOTP()
 		auth := db.AuthoData{
 			Phone: phone,
-			Opt:   opt,
+			Otp:   otp,
 		}
 		InsertAutoData(auth)
-
+		return
 	}
 
 }
