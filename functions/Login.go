@@ -42,12 +42,12 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write([]byte("the user ins't found"))
 		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w)
 		otp := CreateOTP()
 		auth := db.AuthoData{
 			Phone: phone,
 			Otp:   otp,
 		}
+		json.NewEncoder(w).Encode(auth)
 		InsertAutoData(auth)
 		return
 	}
