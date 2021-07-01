@@ -28,7 +28,7 @@ func InsertAutoData(auth db.AuthoData) bool {
 	db_name := os.Getenv("DB_NAME")
 	in := "INSERT INTO " + db_name + ".AuthoData VALUES(?,?)"
 	insert, err := db.Prepare(in)
-	insert.Exec(auth.Phone, auth.Otp)	
+	insert.Exec(auth.Phone, auth.Otp)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -47,4 +47,10 @@ func CreateOTP() string {
 		b[i] = table[int(b[i])%len(table)]
 	}
 	return string(b)
+}
+
+func GetPort() string {
+	dbb := db.DBConn()
+	defer dbb.Close()
+	return os.Getenv("PORT")
 }

@@ -53,3 +53,6 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+func Welcome(w http.ResponseWriter, r *http.Request){
+	
+}

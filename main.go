@@ -7,6 +7,8 @@ import (
 )
 
 func main() {
+	port := functions.GetPort()
+	http.HandleFunc("/", functions.Welcome)
 	http.HandleFunc("/verify", functions.Signin)
-	log.Fatal(http.ListenAndServe(":8088", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
