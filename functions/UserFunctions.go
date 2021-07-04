@@ -48,9 +48,3 @@ func CreateOTP() string {
 	}
 	return string(b)
 }
-
-func GetPort() string {
-	dbb := db.DBConn()
-	defer dbb.Close()
-	return os.Getenv("PORT")
-}
